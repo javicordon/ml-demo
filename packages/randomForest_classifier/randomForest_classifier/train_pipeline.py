@@ -26,8 +26,8 @@ def run_training() -> None:
     #y_train = np.log(y_train)
 
     pipeline.mora_pipe.fit(X_train[config.FEATURES], y_train)
-    pred = pipeline.mora_pipe.predict(X_train[config.FEATURES])
-    print("OUTPUT PRED SUM",pred.sum())
+    #pred = pipeline.mora_pipe.predict(X_train[config.FEATURES])
+    #print("OUTPUT PRED SUM",pred.sum())
 
     _logger.info(f"saving model version: {_version}")
     save_pipeline(pipeline_to_persist=pipeline.mora_pipe)
