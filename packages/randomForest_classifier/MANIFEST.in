@@ -1,0 +1,16 @@
+include *.txt
+include *.md
+include *.cfg
+include *.pkl
+recursive-include ./randomForest_classifier/*
+
+include randomForest_classifier/datasets/train.csv
+include randomForest_classifier/datasets/test.csv
+include randomForest_classifier/trained_models/*.pkl
+include randomForest_classifier/VERSION
+
+include ./requirements.txt
+exclude *.log
+
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
