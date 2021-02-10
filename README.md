@@ -1,4 +1,10 @@
 # Deployment of Machine Learning Models
-Accompanying repo for the online course Deployment of Machine Learning Models.
 
-For the documentation, visit the [course on Udemy](https://www.udemy.com/deployment-of-machine-learning-models/?couponCode=TIDREPO).
+Template not finished yet as of 2021-02-10
+
+Instructions will be here
+
+Under Development:
+neural_network_model
+docker distribution
+Bowpi aws connection

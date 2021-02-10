@@ -11,7 +11,7 @@ from setuptools import find_packages, setup
 # Package meta-data.
 NAME = 'randomForest_classifier'
 DESCRIPTION = 'Random Forest Classifier for using in the Train In Data Bowpi Template "CCH First Credit".'
-URL = 'https://git.bowpi.com/BI/xxxx'
+URL = 'https://git.bowpi.com/BI/ml-deploy'
 EMAIL = 'javier.cordon@bowpi.com'
 AUTHOR = 'JavierCordon'
 REQUIRES_PYTHON = '>=3.6.0'
