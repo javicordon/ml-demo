@@ -26,11 +26,11 @@ def test_make_multiple_predictions():
 
     # When
     subject = make_prediction(input_data=multiple_test_input)
-    print('LEN',subject.get('predictions'))
 
     # Then
     assert subject is not None
-    assert len(subject.get('predictions')) == 2421
+    assert len(subject.get('predictions')) == 1649
+    assert subject.get('predictions').sum() == 1223
 
     # We expect some rows to be filtered out
     assert len(subject.get('predictions')) != original_data_length

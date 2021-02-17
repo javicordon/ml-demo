@@ -1,4 +1,5 @@
 from sklearn.ensemble import RandomForestClassifier
+#from xgboost import XGBClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler
 
@@ -48,6 +49,7 @@ mora_pipe = Pipeline(
             pp.DropUnecessaryFeatures(variables_to_drop=config.DROP_FEATURES),
         ),
         ("scaler", MinMaxScaler()),
-        ("RandomForest_Classifier", RandomForestClassifier(max_depth=2, random_state=0)),
+        ("RandomForest_Classifier", RandomForestClassifier(n_estimators = 18, criterion = 'entropy', random_state=0)),
+        #("XGBoost_Classifier", XGBClassifier(random_state=0)),
     ]
 )

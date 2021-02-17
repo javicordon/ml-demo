@@ -76,7 +76,6 @@ class DictionaryImputer(BaseEstimator, TransformerMixin):
                                         self.variables[feature]["replace_value"])
         return X
 
-
 class TemporalVariableEstimator(BaseEstimator, TransformerMixin):
     """Temporal variable calculator."""
 

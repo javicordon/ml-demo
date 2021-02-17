@@ -16,12 +16,12 @@ DATASET_DIR = PACKAGE_ROOT / "datasets"
 # data
 TESTING_DATA_FILE = "test.csv"
 TRAINING_DATA_FILE = "train.csv"
+DATA_FILE = "dataset.csv"
 TARGET = "maxmora"
 
 
 # variables
 FEATURES = [
-    "qty_meses_desde_desembolso",
     "cl_unq_act_act_messolicitud",
     "cl_unq_act_act_ptodestino",
     "cl_unq_act_act_depnacimiento",

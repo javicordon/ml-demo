@@ -16,6 +16,10 @@ def load_dataset(*, file_name: str) -> pd.DataFrame:
     _data = pd.read_csv(f"{config.DATASET_DIR}/{file_name}")
     return _data
 
+def save_dataset(*, file_name: str, df: pd.core.frame.DataFrame) -> int:
+    df.to_csv(f"{config.DATASET_DIR}/{file_name}", index=False)
+    return 0
+
 
 def save_pipeline(*, pipeline_to_persist) -> None:
     """Persist the pipeline.

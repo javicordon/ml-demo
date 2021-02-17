@@ -13,3 +13,6 @@ randomForest_classifier==0.0.1
 
 # Deployment
 gunicorn==19.9.0
+
+# Fetching datasets
+awscli==1.19.5

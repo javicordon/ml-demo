@@ -20,7 +20,7 @@ class LogTransformer(BaseEstimator, TransformerMixin):
 
     def transform(self, X):
         X = X.copy()
-
+        print(X.shape)
         # check that the values are non-negative for log transform
         if not (X[self.variables] > 0).all().all():
             #vars_ = self.variables[(X[self.variables] <= 0).any()]
