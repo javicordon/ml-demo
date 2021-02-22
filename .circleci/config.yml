@@ -29,10 +29,10 @@ fetch_data: &fetch_data
       ./scripts/fetch_bowpi_dataset.sh
 
 jobs:
-  test_regression_model_py38:
+  test_randomForest_classifier_py38:
     docker:
       - image: circleci/python:3.8.0
-    working_directory: ~/project/packages/regression_model
+    working_directory: ~/project/packages/randomForest_classifier
     steps:
       - checkout:
           path: ~/project
@@ -57,7 +57,7 @@ jobs:
             pip install --user tox
             tox -e py38
 
-  train_and_upload_regression_model:
+  train_and_upload_randomForest_classifier:
     <<: *defaults
     steps:
       - checkout
@@ -66,19 +66,19 @@ jobs:
           name: Install requirements
           command: |
             . venv/bin/activate
-            pip install -r packages/regression_model/requirements.txt
+            pip install -r packages/randomForest_classifier/requirements.txt
       - *fetch_data
       - run:
           name: Train model
           command: |
             . venv/bin/activate
-            PYTHONPATH=./packages/regression_model python3 packages/regression_model/regression_model/train_pipeline.py
+            PYTHONPATH=./packages/randomForest_classifier python3 packages/randomForest_classifier/randomForest_classifier/train_pipeline.py
       - run:
           name: Publish model to Gemfury
           command: |
             . venv/bin/activate
             chmod +x ./scripts/publish_model.sh
-            ./scripts/publish_model.sh ./packages/regression_model/
+            ./scripts/publish_model.sh ./packages/randomForest_classifier/
 
   section_9_differential_tests:
     <<: *defaults
@@ -175,52 +175,50 @@ workflows:
   version: 2
   test-all:
     jobs:
-      - test_regression_model_py36
-      - test_regression_model_py37
-      - test_regression_model_py38
-      - test_ml_api_py36
-      - test_ml_api_py37
+      #- test_randomForest_classifier_py36
+      #- test_randomForest_classifier_py37
+      - test_randomForest_classifier_py38
+      #- test_ml_api_py36
+      #- test_ml_api_py37
       # - test_ml_api_py38 pending NN model update
-      - section_9_differential_tests
-      - train_and_upload_regression_model:
+      #- section_9_differential_tests
+      - train_and_upload_randomForest_classifier:
           requires:
-            - test_regression_model_py36
-            - test_regression_model_py37
-            - test_regression_model_py38
-            - test_ml_api_py36
-            - test_ml_api_py37
-            - section_9_differential_tests
+            - test_randomForest_classifier_py38
+            #- test_ml_api_py36
+            #- test_ml_api_py37
+            #- section_9_differential_tests
           filters:
             branches:
               only:
                 - master
       # - section_10_deploy_to_heroku:
       #     requires:
-      #       - train_and_upload_regression_model
+      #       - train_and_upload_randomForest_classifier
       #     filters:
       #       branches:
       #         only:
       #           - master
 #      - section_11_build_and_push_to_heroku_docker:
 #          requires:
-#            - train_and_upload_regression_model
+#            - train_and_upload_randomForest_classifier
 #          filters:
 #            branches:
 #              only:
 #                - master
       # - section_12_publish_docker_image_to_aws:
       #     requires:
-      #       - train_and_upload_regression_model
+      #       - train_and_upload_randomForest_classifier
       #     filters:
       #       branches:
       #         only:
       #           - master
 #      - section_13_train_and_upload_neural_network_model:
 #          requires:
-#            - test_regression_model
+#            - test_randomForest_classifier
 #            - test_ml_api
 #            - section_9_differential_tests
-            # - train_and_upload_regression_model
+            # - train_and_upload_randomForest_classifier
           # filters:
           #   branches:
           #     only:
