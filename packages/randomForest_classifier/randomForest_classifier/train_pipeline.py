@@ -31,6 +31,7 @@ def run_training() -> None:
     X_train, X_test, y_train, y_test = train_test_split(
         data[config.FEATURES], data[config.TARGET], test_size=0.1, random_state=0
     )  # we are setting the seed here
+    print(X_train.shape, X_test.shape)
 
     # save training and testing
     save_dataset(file_name=config.TRAINING_DATA_FILE, df=X_train)
@@ -40,8 +41,18 @@ def run_training() -> None:
     #y_train = np.log(y_train)
 
     pipeline.mora_pipe.fit(X_train[config.FEATURES], y_train)
-    #pred = pipeline.mora_pipe.predict(X_train[config.FEATURES])
-    #print("OUTPUT PRED SUM",pred.sum())
+    Xt = pipeline.mora_transform.fit_transform(X_train[config.FEATURES], y_train)
+    print('XT',Xt.shape)
+    cat_tot = Xt[config.CATEGORICAL_VARS].sum().sum()
+    num_tot = np.round(Xt[config.NUMERICALS_LOG_VARS].sum().sum(),2)
+    dat_tot = Xt['cl_unq_act_act_fnacimiento_date'].sum()
+    print(cat_tot, num_tot, dat_tot, cat_tot+num_tot+dat_tot)
+    assert cat_tot == 736197
+    assert num_tot == 658249.58
+    assert dat_tot == 523532
+    assert cat_tot+num_tot+dat_tot == 1917978.58
+    pred = pipeline.mora_pipe.predict(X_train[config.FEATURES])
+    print("OUTPUT PRED SUM",pred.sum())
 
     _logger.info(f"saving model version: {_version}")
     save_pipeline(pipeline_to_persist=pipeline.mora_pipe)

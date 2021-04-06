@@ -22,7 +22,6 @@ TARGET = "maxmora"
 
 # variables
 FEATURES = [
-    "cl_unq_act_act_messolicitud",
     "cl_unq_act_act_ptodestino",
     "cl_unq_act_act_depnacimiento",
     "cl_unq_act_act_estadocivil",
@@ -46,13 +45,12 @@ FEATURES = [
     "cl_unq_act_act_totalbienes",
     "cl_unq_act_act_monto",
     # this one is only to calculate temporal variable:
-    "cl_unq_act_act_fechasolicitud",
     "cl_unq_act_act_fnacimiento_date",
 ]
 
 # this variable is to calculate the temporal variable,
 # can be dropped afterwards
-DROP_FEATURES = "cl_unq_act_act_fechasolicitud"
+DROP_FEATURES = []
 
 # numerical variables with NA in train set
 NUMERICAL_VARS_WITH_NA = [

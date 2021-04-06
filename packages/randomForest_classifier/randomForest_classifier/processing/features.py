@@ -31,5 +31,5 @@ class LogTransformer(BaseEstimator, TransformerMixin):
             )
 
         for feature in self.variables:
-            X[feature] = np.log(X[feature])
+            X[feature] = np.round(np.log(X[feature]),2)
         return X

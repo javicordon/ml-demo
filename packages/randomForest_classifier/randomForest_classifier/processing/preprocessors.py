@@ -25,7 +25,6 @@ class CategoricalImputer(BaseEstimator, TransformerMixin):
         X = X.copy()
         for feature in self.variables:
             X[feature] = X[feature].fillna("Missing")
-
         return X
 
 
@@ -121,7 +120,6 @@ class YearsVariableEstimator(BaseEstimator, TransformerMixin):
             X[feature] = pd.to_datetime(X[feature])
             X[feature] = (self.imputer_today_ - X[feature]).dt.days
             X[feature] = (X[feature]/365).astype(int)
-
         return X
 
 
@@ -176,7 +174,6 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin):
         for var in self.variables:
             t = temp.groupby([var])["target"].mean().sort_values(ascending=True).index
             self.encoder_dict_[var] = {k: i for i, k in enumerate(t, 0)}
-
         return self
 
     def transform(self, X):
@@ -195,7 +192,6 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin):
                 f"Categorical encoder has introduced NaN when "
                 f"transforming categorical variables: {vars_.keys()}"
             )
-
         return X
 
 

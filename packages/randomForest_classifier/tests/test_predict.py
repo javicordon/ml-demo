@@ -30,7 +30,7 @@ def test_make_multiple_predictions():
     # Then
     assert subject is not None
     assert len(subject.get('predictions')) == 1649
-    assert subject.get('predictions').sum() == 1223
+    assert subject.get('predictions').sum() == 1213
 
     # We expect some rows to be filtered out
     assert len(subject.get('predictions')) != original_data_length
