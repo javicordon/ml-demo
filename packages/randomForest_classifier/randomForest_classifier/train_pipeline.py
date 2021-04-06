@@ -43,16 +43,16 @@ def run_training() -> None:
     pipeline.mora_pipe.fit(X_train[config.FEATURES], y_train)
     Xt = pipeline.mora_transform.fit_transform(X_train[config.FEATURES], y_train)
     print('XT',Xt.shape)
-    cat_tot = Xt[config.CATEGORICAL_VARS].sum().sum()
-    num_tot = np.round(Xt[config.NUMERICALS_LOG_VARS].sum().sum(),2)
-    dat_tot = Xt['cl_unq_act_act_fnacimiento_date'].sum()
-    print(cat_tot, num_tot, dat_tot, cat_tot+num_tot+dat_tot)
-    assert cat_tot == 736197
-    assert num_tot == 658249.58
-    assert dat_tot == 523532
-    assert cat_tot+num_tot+dat_tot == 1917978.58
-    pred = pipeline.mora_pipe.predict(X_train[config.FEATURES])
-    print("OUTPUT PRED SUM",pred.sum())
+    #cat_tot = Xt[config.CATEGORICAL_VARS].sum().sum()
+    #num_tot = np.round(Xt[config.NUMERICALS_LOG_VARS].sum().sum(),2)
+    #dat_tot = Xt['cl_unq_act_act_fnacimiento_date'].sum()
+    #print(cat_tot, num_tot, dat_tot, cat_tot+num_tot+dat_tot)
+    #assert cat_tot == 736197
+    #assert num_tot == 658249.58
+    #assert dat_tot == 523532
+    #assert cat_tot+num_tot+dat_tot == 1917978.58
+    #pred = pipeline.mora_pipe.predict(X_train[config.FEATURES])
+    #print("OUTPUT PRED SUM",pred.sum())
 
     _logger.info(f"saving model version: {_version}")
     save_pipeline(pipeline_to_persist=pipeline.mora_pipe)

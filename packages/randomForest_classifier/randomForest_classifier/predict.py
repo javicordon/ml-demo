@@ -46,3 +46,40 @@ def make_prediction(*, input_data: t.Union[pd.DataFrame, dict],
     )
 
     return results
+
+def make_transform(*, input_data: t.Union[pd.DataFrame, dict],
+                    ) -> dict:
+    """Make a transform using a saved model pipeline.
+
+    Args:
+        input_data: Array of model prediction inputs.
+
+    Returns:
+        Transform for each input row, as well as the model version.
+    """
+
+    data = pd.DataFrame(input_data)
+    validated_data = validate_inputs(input_data=data)
+
+    #print('Parameters')
+    #print(_mora_pipe.get_params())
+    prediction = _mora_pipe.transform(validated_data[config.FEATURES])
+    
+    try:
+        target = validated_data[config.TARGET]
+    except:
+        target = None
+
+    #output = np.exp(prediction)
+    output = prediction
+
+    results = {"transform": output, "target": target, "version": _version}
+
+    _logger.info(
+        f"Making predictions with model version: {_version} "
+        #f"Inputs: {validated_data} "
+        #f"Predictions: {results}"
+    )
+
+    return results
+

@@ -48,8 +48,8 @@ mora_pipe = Pipeline(
             "drop_features",
             pp.DropUnecessaryFeatures(variables_to_drop=config.DROP_FEATURES),
         ),
-        #("scaler", MinMaxScaler()),
-        ("RandomForest_Classifier", RandomForestClassifier(n_estimators = 18, criterion = 'entropy', random_state=0)),
+        ("scaler", pp.MyMinMaxScaler())
+        #("RandomForest_Classifier", RandomForestClassifier(n_estimators = 18, criterion = 'entropy', random_state=0)),
         #("XGBoost_Classifier", XGBClassifier(random_state=0)),
     ]
 )
@@ -89,7 +89,7 @@ mora_transform = Pipeline(
             "drop_features",
             pp.DropUnecessaryFeatures(variables_to_drop=config.DROP_FEATURES),
         ),
-        #("scaler", MinMaxScaler()),
+        ("scaler", MinMaxScaler())
         #("RandomForest_Classifier", RandomForestClassifier(n_estimators = 18, criterion = 'entropy', random_state=0)),
         #("XGBoost_Classifier", XGBClassifier(random_state=0)),
     ]

@@ -4,6 +4,10 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 from randomForest_classifier.processing.errors import InvalidModelInputError
 
+import logging
+import time
+
+_logger = logging.getLogger(__name__)
 
 class CategoricalImputer(BaseEstimator, TransformerMixin):
     """Categorical data missing value imputer."""
@@ -21,10 +25,13 @@ class CategoricalImputer(BaseEstimator, TransformerMixin):
 
     def transform(self, X: pd.DataFrame) -> pd.DataFrame:
         """Apply the transforms to the dataframe."""
-
+        
+        start = time.time()
         X = X.copy()
         for feature in self.variables:
             X[feature] = X[feature].fillna("Missing")
+        end = time.time()
+        _logger.debug(f'{self.__class__.__name__} Time: {end-start}')
         return X
 
 
@@ -45,9 +52,12 @@ class NumericalImputer(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
+        start = time.time()
         X = X.copy()
         for feature in self.variables:
             X[feature].fillna(self.imputer_dict_[feature], inplace=True)
+        end = time.time()
+        _logger.debug(f'{self.__class__.__name__} Time: {end-start}')
         return X
 
 class DictionaryImputer(BaseEstimator, TransformerMixin):
@@ -68,11 +78,14 @@ class DictionaryImputer(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
+        start = time.time()
         X = X.copy()
         for feature in self.variables.keys():
             X[feature] = X[feature].replace(
                                         self.variables[feature]["target"],
                                         self.variables[feature]["replace_value"])
+        end = time.time()
+        _logger.debug(f'{self.__class__.__name__} Time: {end-start}')
         return X
 
 class TemporalVariableEstimator(BaseEstimator, TransformerMixin):
@@ -91,9 +104,12 @@ class TemporalVariableEstimator(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
+        start = time.time()
         X = X.copy()
         for feature in self.variables:
             X[feature] = X[self.reference_variables] - X[feature]
+        end = time.time()
+        _logger.debug(f'{self.__class__.__name__} Time: {end-start}')
 
         return X
 
@@ -114,12 +130,15 @@ class YearsVariableEstimator(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
+        start = time.time()
         X = X.copy()
         for feature in self.variables:
             X[feature].fillna(str(self.imputer_today_), inplace=True)
             X[feature] = pd.to_datetime(X[feature])
             X[feature] = (self.imputer_today_ - X[feature]).dt.days
             X[feature] = (X[feature]/365).astype(int)
+        end = time.time()
+        _logger.debug(f'{self.__class__.__name__} Time: {end-start}')
         return X
 
 
@@ -146,12 +165,14 @@ class RareLabelCategoricalEncoder(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
+        start = time.time()
         X = X.copy()
         for feature in self.variables:
             X[feature] = np.where(
                 X[feature].isin(self.encoder_dict_[feature]), X[feature], "Rare"
             )
-
+        end = time.time()
+        _logger.debug(f'{self.__class__.__name__} Time: {end-start}')
         return X
 
 
@@ -177,6 +198,7 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
+        start = time.time()
         # encode labels
         X = X.copy()
         for feature in self.variables:
@@ -192,6 +214,8 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin):
                 f"Categorical encoder has introduced NaN when "
                 f"transforming categorical variables: {vars_.keys()}"
             )
+        end = time.time()
+        _logger.debug(f'{self.__class__.__name__} Time: {end-start}')
         return X
 
 
@@ -203,8 +227,28 @@ class DropUnecessaryFeatures(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
+        start = time.time()
         # encode labels
         X = X.copy()
         X = X.drop(self.variables, axis=1)
+        end = time.time()
+        _logger.debug(f'{self.__class__.__name__} Time: {end-start}')
+        return X
 
+from sklearn.preprocessing import MinMaxScaler    
+class MyMinMaxScaler(BaseEstimator, TransformerMixin):
+    def __init__(self, variables=None):
+        self.variables = variables
+        self.scaler = MinMaxScaler()
+
+    def fit(self, X, y=None):
+        self.scaler.fit(X)
+        return self
+
+    def transform(self, X):
+        start = time.time()
+        # encode labels
+        X = pd.DataFrame(self.scaler.transform(X), columns = X.columns)
+        end = time.time()
+        _logger.debug(f'{self.__class__.__name__} Time: {end-start}')
         return X
