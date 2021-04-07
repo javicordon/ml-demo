@@ -98,6 +98,8 @@ FEATURES = [
 # can be dropped afterwards
 DROP_FEATURES = [
     "cl_unq_act_act_fechasolicitud",
+    "cl_unq_act_act_trimestresolicitud",
+    "cl_unq_act_act_flagaprobado"
 ]
 
 # numerical variables with NA in train set
@@ -105,7 +107,9 @@ NUMERICAL_VARS_WITH_NA = [
     "cl_unq_act_act_totalgastosfam",
     "cl_unq_act_act_negociototalingresos",
     "cl_unq_act_act_totalbienes",
-    "cl_unq_act_act_monto"
+    "cl_unq_act_act_monto",
+    'cl_unq_act_act_totalingresosfam',
+    'cl_unq_act_act_totalpasivos'
 ]
 
 # categorical variables with NA in train set
